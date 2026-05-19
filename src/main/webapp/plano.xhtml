@@ -1,0 +1,201 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">
+        <h:outputText value="Plano"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="frmList">
+            <h:panelGroup id="pngList">
+                <p:growl id="growl" showDetail="true"/>
+                <p:fieldset toggleable="true">
+                    <p:dataTable id="datalist" value="#{planoController.planoList}" var="item"
+                                 selectionMode="single" selection="#{planoController.selected}"
+                                 widgetVar="datalistPlanoWidgetVar"
+                                 rowKey="#{item.id}"
+                                 paginator="true" rows="5"
+                                 rowsPerPageTemplate="5,10,50,100"
+                                 emptyMessage="Nenhum plano encontrado...">
+
+                        <p:ajax event="rowSelect"   update="btnEdit btnDelete btnView"/>
+                        <p:ajax event="rowUnselect" update="btnEdit btnDelete btnView"/>
+
+                        <p:column width="4%" sortBy="#{item.id}" filterBy="#{item.id}">
+                            <f:facet name="header"><h:outputText value="ID"/></f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </p:column>
+
+                        <p:column width="10%" sortBy="#{item.nome}" filterBy="#{item.nome}">
+                            <f:facet name="header"><h:outputText value="Nome"/></f:facet>
+                            <h:outputText value="#{item.nome}"/>
+                        </p:column>
+
+                        <p:column width="15%" sortBy="#{item.descricao}" filterBy="#{item.descricao}">
+                            <f:facet name="header"><h:outputText value="Descrição"/></f:facet>
+                            <h:outputText value="#{item.descricao}"/>
+                        </p:column>
+
+                        <p:column width="8%" sortBy="#{item.preco}">
+                            <f:facet name="header"><h:outputText value="Preço"/></f:facet>
+                            <h:outputText value="#{item.preco}">
+                                <f:convertNumber type="currency" currencySymbol="R$ " locale="pt_BR"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column width="6%" sortBy="#{item.duracao_meses}">
+                            <f:facet name="header"><h:outputText value="Duração (meses)"/></f:facet>
+                            <h:outputText value="#{item.duracao_meses}"/>
+                        </p:column>
+
+                        <f:facet name="footer">
+                            <p:commandButton id="btnCreate" value="Incluir Plano" icon="pi pi-file"
+                                             actionListener="#{planoController.prepareAdicionar()}"
+                                             update=":CreateForm"
+                                             oncomplete="PF('dlgCreate').show()"/>
+
+                            <p:commandButton id="btnEdit" value="Editar Plano" icon="pi pi-user-edit"
+                                             update=":formEdit" oncomplete="PF('dlgEdit').show()"
+                                             disabled="#{empty planoController.selected}"/>
+
+                            <p:commandButton id="btnDelete" value="Excluir Plano" icon="pi pi-trash"
+                                             actionListener="#{planoController.deletarPlano()}"
+                                             update="frmList"
+                                             disabled="#{empty planoController.selected}">
+                                <p:confirm header="Confirmar Exclusão"
+                                           message="Você confirma exclusão do plano?"
+                                           icon="ui-icon-alert"/>
+                            </p:commandButton>
+
+                            <p:commandButton id="btnView" value="Detalhes do Plano" icon="pi pi-eye"
+                                             update=":formView" oncomplete="PF('dlgView').show()"
+                                             disabled="#{empty planoController.selected}"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:fieldset>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check"/>
+                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-times"/>
+                </p:confirmDialog>
+            </h:panelGroup>
+        </h:form>
+
+        <!-- Diálogo de Criação -->
+        <p:dialog header="Novo Plano" widgetVar="dlgCreate" width="500" showEffect="fade" modal="true" resizable="false">
+            <h:form id="CreateForm">
+                <p:growl id="growl" showDetail="true"/>
+                <h:panelGrid columns="2" columnClasses="label-col, input-col"
+                             style="width:100%; margin-bottom:10px">
+
+                    <p:outputLabel value="Nome:" for="iptNome" style="font-weight:bold"/>
+                    <p:inputText id="iptNome" label="Nome" required="true"
+                                 requiredMessage="O atributo nome é obrigatório"
+                                 value="#{planoController.plano.nome}"
+                                 maxlength="200" style="width:300px"/>
+
+                    <p:outputLabel value="Descrição:" for="iptDescricao" style="font-weight:bold; vertical-align:top; padding-top:4px"/>
+                    <p:inputTextarea id="iptDescricao" rows="3"
+                                     value="#{planoController.plano.descricao}"
+                                     style="width:300px"/>
+
+                    <p:outputLabel value="Preço:" for="iptPreco" style="font-weight:bold"/>
+                    <p:inputNumber id="iptPreco" label="Preço" required="true"
+                                   requiredMessage="O preço é obrigatório"
+                                   value="#{planoController.plano.preco}"
+                                   minValue="0" symbol="R$ "
+                                   decimalSeparator="," thousandSeparator="."
+                                   inputStyle="width:300px"/>
+
+                    <p:outputLabel value="Duração (meses):" for="iptDuracaoMeses" style="font-weight:bold"/>
+                    <p:inputNumber id="iptDuracaoMeses"
+                                   value="#{planoController.plano.duracao_meses}"
+                                   minValue="1" decimalPlaces="0"
+                                   inputStyle="width:300px"/>
+                </h:panelGrid>
+
+                <p:commandButton actionListener="#{planoController.adicionarPlano()}"
+                                 icon="pi pi-save" value="Cadastrar"
+                                 update=":frmList :CreateForm"
+                                 oncomplete="PF('dlgCreate').hide()"/>
+            </h:form>
+        </p:dialog>
+
+        <!-- Diálogo de Edição -->
+        <p:dialog header="Editar Plano" widgetVar="dlgEdit" width="500" showEffect="fade" modal="true" resizable="false">
+            <h:form id="formEdit">
+                <p:growl id="growl" showDetail="true"/>
+                <h:panelGrid columns="2" columnClasses="label-col, input-col"
+                             style="width:100%; margin-bottom:10px"
+                             rendered="#{planoController.selected != null}">
+
+                    <p:outputLabel value="ID:" for="iptId" style="font-weight:bold"/>
+                    <p:inputText id="iptId" disabled="true"
+                                 value="#{planoController.selected.id}"
+                                 style="width:300px"/>
+
+                    <p:outputLabel value="Nome:" for="iptNome" style="font-weight:bold"/>
+                    <p:inputText id="iptNome" label="Nome" required="true"
+                                 requiredMessage="O atributo nome é obrigatório"
+                                 value="#{planoController.selected.nome}"
+                                 maxlength="200" style="width:300px"/>
+
+                    <p:outputLabel value="Descrição:" for="iptDescricao" style="font-weight:bold; vertical-align:top; padding-top:4px"/>
+                    <p:inputTextarea id="iptDescricao" rows="3"
+                                     value="#{planoController.selected.descricao}"
+                                     style="width:300px"/>
+
+                    <p:outputLabel value="Preço:" for="iptPreco" style="font-weight:bold"/>
+                    <p:inputNumber id="iptPreco" label="Preço" required="true"
+                                   requiredMessage="O preço é obrigatório"
+                                   value="#{planoController.selected.preco}"
+                                   minValue="0" symbol="R$ "
+                                   decimalSeparator="," thousandSeparator="."
+                                   inputStyle="width:300px"/>
+
+                    <p:outputLabel value="Duração (meses):" for="iptDuracaoMeses" style="font-weight:bold"/>
+                    <p:inputNumber id="iptDuracaoMeses"
+                                   value="#{planoController.selected.duracao_meses}"
+                                   minValue="1" decimalPlaces="0"
+                                   inputStyle="width:300px"/>
+                </h:panelGrid>
+
+                <p:commandButton value="Salvar" icon="pi pi-save"
+                                 actionListener="#{planoController.editarPlano()}"
+                                 update="@form :frmList"
+                                 oncomplete="PF('dlgEdit').hide()"/>
+            </h:form>
+        </p:dialog>
+
+        <!-- Diálogo de Visualização -->
+        <p:dialog header="Detalhes do Plano" widgetVar="dlgView"
+                  width="500" showEffect="fade" modal="true" resizable="false">
+            <h:form id="formView">
+                <h:panelGrid columns="2" columnClasses="label-col, input-col"
+                             style="width:100%"
+                             rendered="#{planoController.selected != null}">
+
+                    <p:outputLabel value="ID:" style="font-weight:bold"/>
+                    <p:outputLabel value="#{planoController.selected.id}"/>
+
+                    <p:outputLabel value="Nome:" style="font-weight:bold"/>
+                    <p:outputLabel value="#{planoController.selected.nome}"/>
+
+                    <p:outputLabel value="Descrição:" style="font-weight:bold"/>
+                    <p:outputLabel value="#{planoController.selected.descricao}"/>
+
+                    <p:outputLabel value="Preço:" style="font-weight:bold"/>
+                    <p:outputLabel value="#{planoController.selected.preco}"/>
+
+                    <p:outputLabel value="Duração (meses):" style="font-weight:bold"/>
+                    <p:outputLabel value="#{planoController.selected.duracao_meses}"/>
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+
+    </ui:define>
+</ui:composition>
