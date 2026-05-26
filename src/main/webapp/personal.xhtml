@@ -1,0 +1,221 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">
+        <h:outputText value="Personal"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="frmList">
+            <h:panelGroup id="pngList">
+                <p:growl id="growl" showDetail="true"/>
+                <p:fieldset toggleable="true">
+                    <p:dataTable id="datalist" value="#{personalController.personalList}" var="item"
+                                 selectionMode="single" selection="#{personalController.selected}"
+                                 widgetVar="datalistPersonalWidgetVar"
+                                 rowKey="#{item.id}"
+                                 paginator="true" rows="5"
+                                 rowsPerPageTemplate="5,10,50,100"
+                                 emptyMessage="Nenhum personal encontrado...">
+
+                        <p:ajax event="rowSelect"   update="btnEdit btnDelete btnView"/>
+                        <p:ajax event="rowUnselect" update="btnEdit btnDelete btnView"/>
+
+                        <p:column width="4%" sortBy="#{item.id}">
+                            <f:facet name="header"><h:outputText value="ID"/></f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </p:column>
+
+                        <p:column width="15%" sortBy="#{item.nome}" filterBy="#{item.nome}">
+                            <f:facet name="header"><h:outputText value="Nome"/></f:facet>
+                            <h:outputText value="#{item.nome}"/>
+                        </p:column>
+
+                        <p:column width="12%" sortBy="#{item.especialidade}" filterBy="#{item.especialidade}">
+                            <f:facet name="header"><h:outputText value="Especialidade"/></f:facet>
+                            <h:outputText value="#{item.especialidade}"/>
+                        </p:column>
+
+                        <p:column width="10%" sortBy="#{item.dataNascimento}">
+                            <f:facet name="header"><h:outputText value="Data Nasc."/></f:facet>
+                            <h:outputText value="#{item.dataNascimento}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column width="15%" sortBy="#{item.email}" filterBy="#{item.email}">
+                            <f:facet name="header"><h:outputText value="Email"/></f:facet>
+                            <h:outputText value="#{item.email}"/>
+                        </p:column>
+
+                        <f:facet name="footer">
+                            <p:commandButton id="btnCreate" value="Incluir Personal" icon="pi pi-file"
+                                             actionListener="#{personalController.prepareAdicionar()}"
+                                             update=":CreateForm"
+                                             oncomplete="PF('dlgCreate').show()"/>
+
+                            <p:commandButton id="btnEdit" value="Editar Personal" icon="pi pi-user-edit"
+                                             update=":formEdit" oncomplete="PF('dlgEdit').show()"
+                                             disabled="#{empty personalController.selected}"/>
+
+                            <p:commandButton id="btnDelete" value="Excluir Personal" icon="pi pi-trash"
+                                             actionListener="#{personalController.deletarPersonal()}"
+                                             update="frmList"
+                                             disabled="#{empty personalController.selected}">
+                                <p:confirm header="Confirmar Exclusão"
+                                           message="Você confirma a exclusão do personal?"
+                                           icon="ui-icon-alert"/>
+                            </p:commandButton>
+
+                            <p:commandButton id="btnView" value="Detalhes do Personal" icon="pi pi-eye"
+                                             update=":formView" oncomplete="PF('dlgView').show()"
+                                             disabled="#{empty personalController.selected}"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:fieldset>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check"/>
+                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-times"/>
+                </p:confirmDialog>
+            </h:panelGroup>
+        </h:form>
+
+        <!-- Diálogo de Criação -->
+        <p:dialog header="Novo Personal" widgetVar="dlgCreate" width="500" showEffect="fade" modal="true" resizable="false">
+            <h:form id="CreateForm">
+                <p:growl id="growl" showDetail="true"/>
+                <h:panelGrid columns="2" style="width:100%; margin-bottom:10px">
+
+                    <p:outputLabel value="Nome:" for="iptNome" style="font-weight:bold"/>
+                    <p:inputText id="iptNome" label="Nome" required="true"
+                                 requiredMessage="O nome é obrigatório"
+                                 value="#{personalController.personal.nome}"
+                                 maxlength="200" style="width:300px"/>
+
+                    <p:outputLabel value="Especialidade:" for="iptEspecialidade" style="font-weight:bold"/>
+                    <p:selectOneMenu id="iptEspecialidade" required="true"
+                                     requiredMessage="A especialidade é obrigatória"
+                                     value="#{personalController.personal.especialidade}"
+                                     style="width:300px">
+                        <f:selectItem itemLabel="Selecione..." itemValue=""/>
+                        <f:selectItems value="#{especialidadeController.especialidades}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="Data Nascimento:" for="iptDataNascimento" style="font-weight:bold"/>
+                    <p:inputMask id="iptDataNascimento" mask="99/99/9999" required="true"
+                                 requiredMessage="A data de nascimento é obrigatória"
+                                 value="#{personalController.personal.dataNascimento}"
+                                 style="width:300px">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </p:inputMask>
+
+                    <p:outputLabel value="Email:" for="iptEmail" style="font-weight:bold"/>
+                    <p:inputText id="iptEmail" label="Email" required="true"
+                                 requiredMessage="O email é obrigatório"
+                                 value="#{personalController.personal.email}"
+                                 maxlength="250" style="width:300px"/>
+
+                    <p:outputLabel value="Senha:" for="iptSenha" style="font-weight:bold"/>
+                    <p:password id="iptSenha" label="Senha" required="true"
+                                requiredMessage="A senha é obrigatória"
+                                value="#{personalController.personal.senha}"
+                                style="width:300px"/>
+                </h:panelGrid>
+
+                <p:commandButton actionListener="#{personalController.adicionarPersonal()}"
+                                 icon="pi pi-save" value="Cadastrar"
+                                 update=":frmList :CreateForm"
+                                 oncomplete="PF('dlgCreate').hide()"/>
+            </h:form>
+        </p:dialog>
+
+        <!-- Diálogo de Edição -->
+        <p:dialog header="Editar Personal" widgetVar="dlgEdit" width="500" showEffect="fade" modal="true" resizable="false">
+            <h:form id="formEdit">
+                <p:growl id="growl" showDetail="true"/>
+                <h:panelGrid columns="2" style="width:100%; margin-bottom:10px"
+                             rendered="#{personalController.selected != null}">
+
+                    <p:outputLabel value="ID:" for="iptId" style="font-weight:bold"/>
+                    <p:inputText id="iptId" disabled="true"
+                                 value="#{personalController.selected.id}"
+                                 style="width:300px"/>
+
+                    <p:outputLabel value="Nome:" for="iptNome" style="font-weight:bold"/>
+                    <p:inputText id="iptNome" label="Nome" required="true"
+                                 requiredMessage="O nome é obrigatório"
+                                 value="#{personalController.selected.nome}"
+                                 maxlength="200" style="width:300px"/>
+
+                    <p:outputLabel value="Especialidade:" for="iptEspecialidade" style="font-weight:bold"/>
+                    <p:selectOneMenu id="iptEspecialidade" required="true"
+                                     requiredMessage="A especialidade é obrigatória"
+                                     value="#{personalController.selected.especialidade}"
+                                     style="width:300px">
+                        <f:selectItem itemLabel="Selecione..." itemValue=""/>
+                        <f:selectItems value="#{especialidadeController.especialidades}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="Data Nascimento:" for="iptDataNascimento" style="font-weight:bold"/>
+                    <p:inputMask id="iptDataNascimento" mask="99/99/9999" required="true"
+                                 requiredMessage="A data de nascimento é obrigatória"
+                                 value="#{personalController.selected.dataNascimento}"
+                                 style="width:300px">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </p:inputMask>
+
+                    <p:outputLabel value="Email:" for="iptEmail" style="font-weight:bold"/>
+                    <p:inputText id="iptEmail" label="Email" required="true"
+                                 requiredMessage="O email é obrigatório"
+                                 value="#{personalController.selected.email}"
+                                 maxlength="250" style="width:300px"/>
+
+                    <p:outputLabel value="Senha:" for="iptSenha" style="font-weight:bold"/>
+                    <p:password id="iptSenha" label="Senha" required="true"
+                                requiredMessage="A senha é obrigatória"
+                                value="#{personalController.selected.senha}"
+                                style="width:300px"/>
+                </h:panelGrid>
+
+                <p:commandButton value="Salvar" icon="pi pi-save"
+                                 actionListener="#{personalController.editarPersonal()}"
+                                 update="@form :frmList"
+                                 oncomplete="PF('dlgEdit').hide()"/>
+            </h:form>
+        </p:dialog>
+
+        <!-- Diálogo de Visualização -->
+        <p:dialog header="Detalhes do Personal" widgetVar="dlgView"
+                  width="500" showEffect="fade" modal="true" resizable="false">
+            <h:form id="formView">
+                <h:panelGrid columns="2" style="width:100%"
+                             rendered="#{personalController.selected != null}">
+
+                    <p:outputLabel value="ID:" style="font-weight:bold"/>
+                    <p:outputLabel value="#{personalController.selected.id}"/>
+
+                    <p:outputLabel value="Nome:" style="font-weight:bold"/>
+                    <p:outputLabel value="#{personalController.selected.nome}"/>
+
+                    <p:outputLabel value="Especialidade:" style="font-weight:bold"/>
+                    <p:outputLabel value="#{personalController.selected.especialidade}"/>
+
+                    <p:outputLabel value="Data Nascimento:" style="font-weight:bold"/>
+                    <h:outputText value="#{personalController.selected.dataNascimento}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+
+                    <p:outputLabel value="Email:" style="font-weight:bold"/>
+                    <p:outputLabel value="#{personalController.selected.email}"/>
+
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+
+    </ui:define>
+</ui:composition>
