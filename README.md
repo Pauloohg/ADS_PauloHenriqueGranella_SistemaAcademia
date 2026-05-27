@@ -22,7 +22,6 @@ entity/      → Representação das tabelas do banco (Model)
 facade/      → Acesso ao banco de dados via JPA
 controller/  → Lógica de negócio e integração com a view (Controller)
 enumeration/ → Enumerações de valores fixos
-filter/      → Filtro de segurança (autenticação)
 webapp/      → Páginas XHTML com PrimeFaces (View)
 ```
 
@@ -35,7 +34,7 @@ Cadastro, edição, listagem e exclusão de planos da academia.
 ### 2. Gerenciamento de Personais
 Cadastro, edição, listagem e exclusão de personal trainers.
 - Campos: nome, especialidade (Enum), data de nascimento, email e senha
-- Especialidades disponíveis: Musculação, Pilates, Cardio, Crossfit, Yoga
+- Especialidades disponíveis: Musculação, Pilates, Cardio, Crossfit, Yoga e Funcional
 - O personal também é o usuário do sistema — realiza login com email e senha
 
 ### 3. Gerenciamento de Alunos
@@ -46,7 +45,7 @@ Cadastro, edição, listagem e exclusão de alunos.
 ### 4. Gerenciamento de Aulas
 Cadastro, edição, listagem e exclusão de aulas agendadas.
 - Campos: tipo (Enum), horário, personal responsável e aluno participante
-- Tipos de aula disponíveis: Pilates, Musculação, Crossfit, Yoga, Funcional
+- Tipos de aula disponíveis: Musculação, Pilates, Cardio, Crossfit, Yoga e Funcional
 - Cada aula representa um agendamento individual entre um personal e um aluno
 
 ## Diagrama de Entidades e Relacionamentos
@@ -90,6 +89,7 @@ Cadastro, edição, listagem e exclusão de aulas agendadas.
 Define os tipos de aula disponíveis na academia:
 - `PILATES`
 - `MUSCULACAO`
+- `CARDIO`
 - `CROSSFIT`
 - `YOGA`
 - `FUNCIONAL`
@@ -101,6 +101,7 @@ Define as especialidades disponíveis para personal trainers:
 - `CARDIO`
 - `CROSSFIT`
 - `YOGA`
+- `FUNCIONAL`
 
 ## Script do Banco de Dados
 
