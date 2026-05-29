@@ -10,7 +10,10 @@ import jakarta.ejb.EJBException;
 import jakarta.inject.Named;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
+import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.convert.Converter;
+import jakarta.faces.convert.FacesConverter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +55,53 @@ public class PlanoController implements Serializable {
 
     public void setSelected(PlanoEntity selected) {
         this.selected = selected;
+    }
+    
+    public PlanoEntity getPlano(java.lang.Integer id) {
+        return ejbFacade.find(id);
+    }
+
+
+    @FacesConverter(forClass = PlanoEntity.class)
+    public static class PlanoControllerConverter implements Converter {
+
+        @Override
+        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
+            if (value == null || value.length() == 0) {
+                return null;
+            }
+            PlanoController controller
+                    = (PlanoController) facesContext.getApplication().getELResolver().
+                            getValue(facesContext.getELContext(),
+                                    null, "planoController");
+            return controller.getPlano(getKey(value));
+        }
+
+        java.lang.Integer getKey(String value) {
+            java.lang.Integer key;
+            key = Integer.valueOf(value);
+            return key;
+        }
+
+        String getStringKey(java.lang.Integer value) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(value);
+            return sb.toString();
+        }
+
+        @Override
+        public String getAsString(FacesContext facesContext,
+                UIComponent component, Object object) {
+            if (object == null) {
+                return null;
+            }
+            if (object instanceof PlanoEntity) {
+                PlanoEntity o = (PlanoEntity) object;
+                return getStringKey(o.getId());
+            } else {
+                return null;
+            }
+        }
     }
     
     public static enum PersistAction {
