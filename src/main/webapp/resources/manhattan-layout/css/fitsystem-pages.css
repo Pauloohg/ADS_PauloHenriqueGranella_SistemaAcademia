@@ -1,0 +1,579 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Nunito:wght@300;400;600;700&display=swap');
+
+/* =====================================================
+   VARIÁVEIS
+   ===================================================== */
+:root {
+    --fit-green:          #00c8a0;
+    --fit-green-dark:     #009e7e;
+    --fit-green-glow:     rgba(0, 200, 160, 0.18);
+    --fit-blue:           #00a8e8;
+    --fit-navy:           #0a0f1e;
+    --fit-navy-mid:       #0f1829;
+    --fit-navy-soft:      #162035;
+    --fit-navy-border:    rgba(0, 200, 160, 0.18);
+    --fit-surface:        #131c30;
+    --fit-surface-alt:    #0e1626;
+    --fit-text:           #c8d8ec;
+    --fit-text-bright:    #e8f0fa;
+    --fit-text-muted:     #5a7090;
+    --fit-row-hover:      rgba(0, 200, 160, 0.06);
+    --fit-row-selected:   rgba(0, 200, 160, 0.13);
+    --fit-border:         rgba(0, 200, 160, 0.12);
+    --fit-radius:         14px;
+    --fit-radius-sm:      8px;
+    --fit-shadow:         0 8px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* =====================================================
+   BODY / FUNDO GERAL
+   ===================================================== */
+body,
+.layout-wrapper {
+    font-family: 'Nunito', sans-serif !important;
+    background-color: var(--fit-navy) !important;
+    color: var(--fit-text) !important;
+}
+
+.layout-wrapper.layout-slim.layout-light {
+    background: var(--fit-navy) !important;
+}
+
+/* =====================================================
+   ÁREA DE CONTEÚDO
+   ===================================================== */
+.layout-content {
+    padding: 90px 28px 32px 28px !important;
+    background: var(--fit-navy) !important;
+}
+
+/* =====================================================
+   FIELDSET — container da tabela
+   ===================================================== */
+.ui-fieldset,
+.ui-fieldset.ui-widget {
+    background: var(--fit-surface) !important;
+    border: 1px solid var(--fit-navy-border) !important;
+    border-radius: var(--fit-radius) !important;
+    box-shadow: var(--fit-shadow) !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+}
+
+.ui-fieldset .ui-fieldset-legend {
+    display: none !important;
+}
+
+/* =====================================================
+   PAGINADOR — acima da tabela
+   ===================================================== */
+.ui-paginator,
+.ui-datatable .ui-paginator {
+    background: var(--fit-surface-alt) !important;
+    border: none !important;
+    border-bottom: 1px solid var(--fit-border) !important;
+    padding: 12px 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    flex-wrap: wrap !important;
+}
+
+.ui-paginator-bottom {
+    border-bottom: none !important;
+    border-top: 1px solid var(--fit-border) !important;
+}
+
+.ui-paginator .ui-paginator-page,
+.ui-paginator .ui-paginator-first,
+.ui-paginator .ui-paginator-prev,
+.ui-paginator .ui-paginator-next,
+.ui-paginator .ui-paginator-last {
+    background: transparent !important;
+    border: 1px solid rgba(0, 200, 160, 0.2) !important;
+    border-radius: 6px !important;
+    color: var(--fit-text-muted) !important;
+    width: 32px !important;
+    height: 32px !important;
+    line-height: 30px !important;
+    text-align: center !important;
+    transition: all 0.2s ease !important;
+    font-size: 13px !important;
+    cursor: pointer !important;
+    font-family: 'Nunito', sans-serif !important;
+}
+
+.ui-paginator .ui-paginator-page:hover,
+.ui-paginator .ui-paginator-first:hover,
+.ui-paginator .ui-paginator-prev:hover,
+.ui-paginator .ui-paginator-next:hover,
+.ui-paginator .ui-paginator-last:hover {
+    background: var(--fit-green) !important;
+    border-color: var(--fit-green) !important;
+    color: #fff !important;
+}
+
+.ui-paginator .ui-state-active,
+.ui-paginator .ui-paginator-page.ui-state-active {
+    background: var(--fit-green) !important;
+    border-color: var(--fit-green) !important;
+    color: #fff !important;
+    font-weight: 700 !important;
+    box-shadow: 0 2px 10px rgba(0,200,160,0.4) !important;
+}
+
+.ui-paginator select,
+.ui-paginator .ui-paginator-rpp-options {
+    background: var(--fit-navy-mid) !important;
+    border: 1px solid rgba(0,200,160,0.2) !important;
+    border-radius: 6px !important;
+    color: var(--fit-text) !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13px !important;
+    padding: 5px 8px !important;
+    height: 32px !important;
+    outline: none !important;
+    cursor: pointer !important;
+}
+
+/* =====================================================
+   DATATABLE — CABEÇALHO
+   ===================================================== */
+.ui-datatable thead tr th,
+.ui-datatable .ui-datatable-thead > tr > th {
+    background: var(--fit-navy-mid) !important;
+    color: var(--fit-green) !important;
+    font-family: 'Rajdhani', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    letter-spacing: 1.2px !important;
+    text-transform: uppercase !important;
+    padding: 16px 14px !important;
+    border: none !important;
+    border-bottom: 1px solid rgba(0, 200, 160, 0.25) !important;
+    white-space: nowrap !important;
+}
+
+.ui-datatable thead th .pi,
+.ui-datatable thead th .ui-sortable-column-icon {
+    color: rgba(0, 200, 160, 0.5) !important;
+}
+
+.ui-datatable thead th:hover .ui-sortable-column-icon,
+.ui-datatable thead th.ui-state-active .ui-sortable-column-icon {
+    color: var(--fit-green) !important;
+}
+
+.ui-datatable thead tr th.ui-state-active,
+.ui-datatable thead tr th.ui-sortable-column.ui-state-highlight {
+    background: rgba(0, 200, 160, 0.1) !important;
+    color: var(--fit-green) !important;
+}
+
+/* ── Inputs de filtro dentro do header ── */
+.ui-datatable thead .ui-column-filter,
+.ui-datatable .ui-filter-column .ui-inputtext,
+.ui-datatable thead tr th input[type="text"] {
+    background: rgba(255,255,255,0.05) !important;
+    border: 1px solid rgba(0,200,160,0.25) !important;
+    border-radius: 6px !important;
+    color: #c8d8ec !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 12px !important;
+    padding: 6px 10px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin-top: 6px !important;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.ui-datatable thead .ui-column-filter:focus,
+.ui-datatable .ui-filter-column .ui-inputtext:focus {
+    background: rgba(0,200,160,0.08) !important;
+    border-color: var(--fit-green) !important;
+    outline: none !important;
+    box-shadow: 0 0 0 2px rgba(0,200,160,0.18) !important;
+}
+
+/* =====================================================
+   DATATABLE — LINHAS
+   ===================================================== */
+.ui-datatable tbody tr,
+.ui-datatable .ui-datatable-data > tr {
+    transition: background 0.15s ease !important;
+    border-bottom: 1px solid rgba(0,200,160,0.07) !important;
+}
+
+.ui-datatable tbody tr td,
+.ui-datatable .ui-datatable-data > tr > td {
+    padding: 13px 14px !important;
+    font-size: 14px !important;
+    color: var(--fit-text) !important;
+    border: none !important;
+    border-bottom: 1px solid rgba(0,200,160,0.07) !important;
+    vertical-align: middle !important;
+    background: transparent !important;
+}
+
+/* Zebra */
+.ui-datatable tbody tr:nth-child(odd) {
+    background: var(--fit-surface) !important;
+}
+
+.ui-datatable tbody tr:nth-child(even) {
+    background: rgba(15, 24, 41, 0.7) !important;
+}
+
+/* Hover */
+.ui-datatable tbody tr:hover,
+.ui-datatable .ui-datatable-data > tr:hover {
+    background: var(--fit-row-hover) !important;
+    cursor: pointer !important;
+}
+
+/* Selecionada */
+.ui-datatable tbody tr.ui-state-highlight,
+.ui-datatable .ui-datatable-data > tr.ui-state-highlight {
+    background: var(--fit-row-selected) !important;
+    border-left: 3px solid var(--fit-green) !important;
+}
+
+.ui-datatable tbody tr.ui-state-highlight td {
+    color: var(--fit-green) !important;
+    font-weight: 600 !important;
+    background: transparent !important;
+}
+
+/* Mensagem vazia */
+.ui-datatable .ui-datatable-empty-message td {
+    text-align: center !important;
+    color: var(--fit-text-muted) !important;
+    font-style: italic !important;
+    padding: 32px !important;
+}
+
+/* =====================================================
+   DATATABLE — RODAPÉ (botões)
+   ===================================================== */
+.ui-datatable tfoot tr td,
+.ui-datatable .ui-datatable-footer {
+    background: var(--fit-surface-alt) !important;
+    border: none !important;
+    border-top: 1px solid var(--fit-border) !important;
+    padding: 16px !important;
+    display: flex !important;
+    gap: 10px !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+}
+
+/* =====================================================
+   BOTÕES
+   ===================================================== */
+.ui-button,
+button.ui-button {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    border-radius: var(--fit-radius-sm) !important;
+    padding: 9px 18px !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: all 0.22s ease !important;
+    letter-spacing: 0.3px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    white-space: nowrap !important;
+}
+
+/* Incluir — verde */
+[id$="btnCreate"].ui-button {
+    background: linear-gradient(135deg, #00c8a0, #009e7e) !important;
+    color: #fff !important;
+    box-shadow: 0 3px 14px rgba(0,200,160,0.38) !important;
+}
+[id$="btnCreate"].ui-button:hover:not(.ui-state-disabled) {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 22px rgba(0,200,160,0.55) !important;
+}
+
+/* Editar — azul */
+[id$="btnEdit"].ui-button {
+    background: linear-gradient(135deg, #2196f3, #1565c0) !important;
+    color: #fff !important;
+    box-shadow: 0 3px 14px rgba(33,150,243,0.3) !important;
+}
+[id$="btnEdit"].ui-button:hover:not(.ui-state-disabled) {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 22px rgba(33,150,243,0.48) !important;
+}
+
+/* Excluir — vermelho */
+[id$="btnDelete"].ui-button {
+    background: linear-gradient(135deg, #f44336, #b71c1c) !important;
+    color: #fff !important;
+    box-shadow: 0 3px 14px rgba(244,67,54,0.3) !important;
+}
+[id$="btnDelete"].ui-button:hover:not(.ui-state-disabled) {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 22px rgba(244,67,54,0.48) !important;
+}
+
+/* Detalhes — laranja */
+[id$="btnView"].ui-button {
+    background: linear-gradient(135deg, #ff9800, #e65100) !important;
+    color: #fff !important;
+    box-shadow: 0 3px 14px rgba(255,152,0,0.3) !important;
+}
+[id$="btnView"].ui-button:hover:not(.ui-state-disabled) {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 22px rgba(255,152,0,0.48) !important;
+}
+
+/* Desabilitado */
+.ui-button.ui-state-disabled,
+.ui-button[disabled] {
+    background: rgba(30, 40, 60, 0.8) !important;
+    color: var(--fit-text-muted) !important;
+    box-shadow: none !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    border: 1px solid rgba(0,200,160,0.1) !important;
+    opacity: 0.6 !important;
+}
+
+/* Botões dentro dos diálogos */
+.ui-dialog .ui-button {
+    background: linear-gradient(135deg, #00c8a0, #009e7e) !important;
+    color: #fff !important;
+    box-shadow: 0 3px 14px rgba(0,200,160,0.3) !important;
+    margin-top: 8px !important;
+}
+.ui-dialog .ui-button:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 22px rgba(0,200,160,0.45) !important;
+}
+
+/* =====================================================
+   DIÁLOGOS
+   ===================================================== */
+.ui-dialog,
+.ui-dialog.ui-widget {
+    background: var(--fit-surface) !important;
+    border: 1px solid rgba(0,200,160,0.2) !important;
+    border-radius: var(--fit-radius) !important;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(0,200,160,0.08) !important;
+    font-family: 'Nunito', sans-serif !important;
+    overflow: hidden !important;
+}
+
+.ui-dialog .ui-dialog-titlebar {
+    background: var(--fit-navy-mid) !important;
+    color: var(--fit-green) !important;
+    font-family: 'Rajdhani', sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px !important;
+    padding: 16px 20px !important;
+    border: none !important;
+    border-bottom: 1px solid rgba(0,200,160,0.2) !important;
+}
+
+.ui-dialog .ui-dialog-titlebar-close {
+    color: var(--fit-text-muted) !important;
+    transition: color 0.2s !important;
+}
+.ui-dialog .ui-dialog-titlebar-close:hover {
+    color: var(--fit-green) !important;
+}
+
+.ui-dialog .ui-dialog-content {
+    padding: 24px 24px 20px !important;
+    background: var(--fit-surface) !important;
+    color: var(--fit-text) !important;
+}
+
+/* Labels dentro do diálogo */
+.ui-dialog .ui-outputlabel {
+    font-size: 11px !important;
+    color: var(--fit-text-muted) !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.8px !important;
+    display: block !important;
+    margin-bottom: 4px !important;
+    font-family: 'Nunito', sans-serif !important;
+}
+
+/* Inputs dentro do diálogo */
+.ui-dialog .ui-inputtext,
+.ui-dialog input[type="text"],
+.ui-dialog textarea.ui-inputtextarea {
+    width: 100% !important;
+    background: var(--fit-navy-mid) !important;
+    border: 1px solid rgba(0,200,160,0.2) !important;
+    border-radius: 8px !important;
+    color: var(--fit-text-bright) !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 14px !important;
+    padding: 10px 14px !important;
+    box-sizing: border-box !important;
+    transition: border-color 0.2s, box-shadow 0.2s !important;
+    outline: none !important;
+}
+
+.ui-dialog .ui-inputtext:focus,
+.ui-dialog input[type="text"]:focus,
+.ui-dialog textarea.ui-inputtextarea:focus {
+    border-color: var(--fit-green) !important;
+    box-shadow: 0 0 0 3px rgba(0,200,160,0.15) !important;
+    background: rgba(0,200,160,0.05) !important;
+}
+
+.ui-dialog .ui-inputnumber input {
+    background: var(--fit-navy-mid) !important;
+    border: 1px solid rgba(0,200,160,0.2) !important;
+    border-radius: 8px !important;
+    color: var(--fit-text-bright) !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 14px !important;
+    padding: 10px 14px !important;
+    transition: border-color 0.2s !important;
+    outline: none !important;
+}
+
+.ui-dialog .ui-inputnumber input:focus {
+    border-color: var(--fit-green) !important;
+    box-shadow: 0 0 0 3px rgba(0,200,160,0.15) !important;
+}
+
+.ui-dialog .ui-inputtext[disabled],
+.ui-dialog input[disabled] {
+    background: rgba(10,15,30,0.6) !important;
+    color: var(--fit-text-muted) !important;
+    cursor: not-allowed !important;
+    border-color: rgba(0,200,160,0.1) !important;
+}
+
+/* PanelGrid dentro do diálogo */
+.ui-dialog .ui-panelgrid td {
+    padding: 7px 4px !important;
+    border: none !important;
+    background: transparent !important;
+    vertical-align: middle !important;
+}
+
+/* =====================================================
+   CONFIRMAÇÃO DE EXCLUSÃO
+   ===================================================== */
+.ui-confirmdialog {
+    background: var(--fit-surface) !important;
+    border: 1px solid rgba(0,200,160,0.2) !important;
+    border-radius: var(--fit-radius) !important;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.7) !important;
+}
+
+.ui-confirmdialog .ui-dialog-titlebar {
+    background: var(--fit-navy-mid) !important;
+    color: var(--fit-green) !important;
+}
+
+.ui-confirmdialog .ui-confirmdialog-message {
+    color: var(--fit-text) !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 15px !important;
+}
+
+.ui-confirmdialog .ui-confirmdialog-yes {
+    background: linear-gradient(135deg, #f44336, #b71c1c) !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 8px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-weight: 700 !important;
+    padding: 8px 16px !important;
+}
+
+.ui-confirmdialog .ui-confirmdialog-no {
+    background: var(--fit-navy-soft) !important;
+    color: var(--fit-text) !important;
+    border: 1px solid rgba(0,200,160,0.2) !important;
+    border-radius: 8px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-weight: 700 !important;
+    padding: 8px 16px !important;
+}
+
+/* =====================================================
+   TOPBAR
+   ===================================================== */
+.layout-topbar {
+    background: var(--fit-navy-mid) !important;
+    border-bottom: 1px solid rgba(0,200,160,0.2) !important;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.4) !important;
+}
+
+.layout-topbar .layout-topbar-search input {
+    background: rgba(255,255,255,0.05) !important;
+    border: 1px solid rgba(0,200,160,0.2) !important;
+    border-radius: 8px !important;
+    color: var(--fit-text) !important;
+}
+
+/* =====================================================
+   SIDEBAR
+   ===================================================== */
+.layout-sidebar {
+    background: var(--fit-navy-mid) !important;
+    border-right: 1px solid rgba(0,200,160,0.12) !important;
+}
+
+.layout-menu .layout-root-menuitem .layout-menuitem-root-text {
+    color: rgba(0,200,160,0.5) !important;
+    font-size: 10px !important;
+    letter-spacing: 2px !important;
+    font-family: 'Rajdhani', sans-serif !important;
+}
+
+.layout-menu li a {
+    color: rgba(200,216,236,0.7) !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 14px !important;
+    border-radius: 8px !important;
+    transition: all 0.2s ease !important;
+    margin: 2px 8px !important;
+}
+
+.layout-menu li a:hover,
+.layout-menu li.active-menuitem > a {
+    color: var(--fit-green) !important;
+    background: rgba(0,200,160,0.08) !important;
+}
+
+/* =====================================================
+   FOOTER
+   ===================================================== */
+.layout-footer {
+    background: var(--fit-navy-mid) !important;
+    border-top: 1px solid rgba(0,200,160,0.12) !important;
+    color: var(--fit-text-muted) !important;
+}
+
+/* =====================================================
+   GROWL
+   ===================================================== */
+.ui-growl-item-container {
+    border-radius: 10px !important;
+    font-family: 'Nunito', sans-serif !important;
+    background: var(--fit-surface) !important;
+    border: 1px solid rgba(0,200,160,0.2) !important;
+}
+
+/* =====================================================
+   SCROLLBAR
+   ===================================================== */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--fit-navy); }
+::-webkit-scrollbar-thumb { background: rgba(0,200,160,0.3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--fit-green); }
