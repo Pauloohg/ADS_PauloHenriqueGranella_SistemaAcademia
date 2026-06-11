@@ -44,7 +44,7 @@ Cadastro, edição, listagem e exclusão de alunos.
 
 ### 4. Gerenciamento de Aulas
 Cadastro, edição, listagem e exclusão de aulas agendadas.
-- Campos: tipo (Enum), horário, personal responsável e aluno participante
+- Campos: tipo (Enum), data, horário, personal responsável e aluno participante
 - Tipos de aula disponíveis: Musculação, Pilates, Cardio, Crossfit, Yoga e Funcional
 - Cada aula representa um agendamento individual entre um personal e um aluno
 
@@ -68,7 +68,8 @@ Cadastro, edição, listagem e exclusão de aulas agendadas.
 ├─────────────────┤            │       Aula        │
 │ id (PK)         │ 1          ├───────────────────┤
 │ nome            ├───────────►│ id (PK)           │
-│ email           │ N          │ tipo (Enum)       │
+│ email           │ N          │ tipo (Enum)       |
+│                 |            | data_aula         |
 │ telefone        │            │ horario           │
 │ data_nascimento │            │ id_personal (FK)  │
 │ id_plano (FK)   │            │ id_aluno (FK)     │
@@ -140,6 +141,7 @@ CREATE TABLE aluno (
 CREATE TABLE aula (
     id serial PRIMARY KEY,
     tipo text NOT NULL,
+    data_aula date NOT NULL,
     horario text NOT NULL,
     id_personal integer NOT NULL,
     id_aluno integer NOT NULL,
