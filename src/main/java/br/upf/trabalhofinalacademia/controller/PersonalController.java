@@ -10,7 +10,10 @@ import jakarta.ejb.EJBException;
 import jakarta.inject.Named;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
+import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.convert.Converter;
+import jakarta.faces.convert.FacesConverter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +55,50 @@ public class PersonalController implements Serializable {
 
     public void setSelected(PersonalEntity selected) {
         this.selected = selected;
+    }
+    
+    public PersonalEntity getPersonal(java.lang.Integer id) {
+    return ejbFacade.find(id);
+    }
+
+    @FacesConverter(forClass = PersonalEntity.class)
+    public static class PersonalControllerConverter implements Converter {
+
+        @Override
+        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
+            if (value == null || value.length() == 0) {
+                return null;
+            }
+            PersonalController controller
+                    = (PersonalController) facesContext.getApplication().getELResolver()
+                            .getValue(facesContext.getELContext(), null, "personalController");
+            return controller.getPersonal(getKey(value));
+        }
+
+        java.lang.Integer getKey(String value) {
+            java.lang.Integer key;
+            key = Integer.valueOf(value);
+            return key;
+        }
+
+        String getStringKey(java.lang.Integer value) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(value);
+            return sb.toString();
+        }
+
+        @Override
+        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
+            if (object == null) {
+                return null;
+            }
+            if (object instanceof PersonalEntity) {
+                PersonalEntity o = (PersonalEntity) object;
+                return getStringKey(o.getId());
+            } else {
+                return null;
+            }
+        }
     }
     
     public static enum PersistAction {
