@@ -5,7 +5,8 @@ public enum EspecialidadeEnum {
     PILATES("Pilates"),
     CARDIO("Cardio"),
     CROSSFIT("Crossfit"),
-    YOGA("Yoga");
+    YOGA("Yoga"),
+    FUNCIONAL("Funcional");
 
     private final String value;
 
