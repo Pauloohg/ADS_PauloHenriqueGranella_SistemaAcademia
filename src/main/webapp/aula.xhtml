@@ -1,0 +1,245 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">
+        <h:outputText value="Aula"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="frmList">
+            <h:panelGroup id="pngList">
+                <p:growl id="growl" showDetail="true"/>
+                <p:fieldset toggleable="true">
+                    <p:dataTable id="datalist" value="#{aulaController.aulaList}" var="item"
+                                 selectionMode="single" selection="#{aulaController.selected}"
+                                 widgetVar="datalistAulaWidgetVar"
+                                 rowKey="#{item.id}"
+                                 paginator="true" rows="5"
+                                 rowsPerPageTemplate="5,10,50,100"
+                                 emptyMessage="Nenhuma aula encontrada...">
+
+                        <p:ajax event="rowSelect"   update="btnEdit btnDelete btnView"/>
+                        <p:ajax event="rowUnselect" update="btnEdit btnDelete btnView"/>
+
+                        <p:column width="4%" sortBy="#{item.id}">
+                            <f:facet name="header"><h:outputText value="ID"/></f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </p:column>
+
+                        <p:column width="12%" sortBy="#{item.tipo}" filterBy="#{item.tipo}">
+                            <f:facet name="header"><h:outputText value="Tipo"/></f:facet>
+                            <h:outputText value="#{item.tipo}"/>
+                        </p:column>
+
+                        <p:column width="10%" sortBy="#{item.dataAula}">
+                            <f:facet name="header"><h:outputText value="Data"/></f:facet>
+                            <h:outputText value="#{item.dataAula}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column width="8%" sortBy="#{item.horario}">
+                            <f:facet name="header"><h:outputText value="Horário"/></f:facet>
+                            <h:outputText value="#{item.horario}"/>
+                        </p:column>
+
+                        <p:column width="15%" sortBy="#{item.idPersonal.nome}" filterBy="#{item.idPersonal.nome}">
+                            <f:facet name="header"><h:outputText value="Personal"/></f:facet>
+                            <h:outputText value="#{item.idPersonal.nome}"/>
+                        </p:column>
+
+                        <p:column width="15%" sortBy="#{item.idAluno.nome}" filterBy="#{item.idAluno.nome}">
+                            <f:facet name="header"><h:outputText value="Aluno"/></f:facet>
+                            <h:outputText value="#{item.idAluno.nome}"/>
+                        </p:column>
+
+                        <f:facet name="footer">
+                            <p:commandButton id="btnCreate" value="Incluir Aula" icon="pi pi-file"
+                                             actionListener="#{aulaController.prepareAdicionar()}"
+                                             update=":CreateForm"
+                                             oncomplete="PF('dlgCreate').show()"/>
+
+                            <p:commandButton id="btnEdit" value="Editar Aula" icon="pi pi-user-edit"
+                                             update=":formEdit" oncomplete="PF('dlgEdit').show()"
+                                             disabled="#{empty aulaController.selected}"/>
+
+                            <p:commandButton id="btnDelete" value="Excluir Aula" icon="pi pi-trash"
+                                             actionListener="#{aulaController.deletarAula()}"
+                                             update="frmList"
+                                             disabled="#{empty aulaController.selected}">
+                                <p:confirm header="Confirmar Exclusão"
+                                           message="Você confirma a exclusão da aula?"
+                                           icon="ui-icon-alert"/>
+                            </p:commandButton>
+
+                            <p:commandButton id="btnView" value="Detalhes da Aula" icon="pi pi-eye"
+                                             update=":formView" oncomplete="PF('dlgView').show()"
+                                             disabled="#{empty aulaController.selected}"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:fieldset>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check"/>
+                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-times"/>
+                </p:confirmDialog>
+            </h:panelGroup>
+        </h:form>
+
+        <!-- Diálogo de Criação -->
+        <p:dialog header="Nova Aula" widgetVar="dlgCreate" width="500" showEffect="fade" modal="true" resizable="false">
+            <h:form id="CreateForm">
+                <p:growl id="growl" showDetail="true"/>
+                <h:panelGrid columns="2" style="width:100%; margin-bottom:10px">
+
+                    <p:outputLabel value="Tipo:" for="iptTipo" style="font-weight:bold"/>
+                    <p:selectOneMenu id="iptTipo" required="true"
+                                     requiredMessage="O tipo é obrigatório"
+                                     value="#{aulaController.aula.tipo}"
+                                     style="width:300px">
+                        <f:selectItem itemLabel="Selecione..." itemValue=""/>
+                        <f:selectItems value="#{especialidadeController.especialidades}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="Data:" for="iptDataAula" style="font-weight:bold"/>
+                    <p:inputMask id="iptDataAula" mask="99/99/9999" required="true"
+                                 requiredMessage="A data é obrigatória"
+                                 value="#{aulaController.aula.dataAula}"
+                                 style="width:300px">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </p:inputMask>
+
+                    <p:outputLabel value="Horário:" for="iptHorario" style="font-weight:bold"/>
+                    <p:inputMask id="iptHorario" mask="99:99" required="true"
+                                 requiredMessage="O horário é obrigatório"
+                                 value="#{aulaController.aula.horario}"
+                                 style="width:300px"/>
+
+                    <p:outputLabel value="Personal:" for="iptPersonal" style="font-weight:bold"/>
+                    <p:selectOneMenu id="iptPersonal" required="true"
+                                     requiredMessage="O personal é obrigatório"
+                                     value="#{aulaController.aula.idPersonal}"
+                                     style="width:300px">
+                        <f:selectItem itemLabel="Selecione um personal..." itemValue=""/>
+                        <f:selectItems value="#{personalController.personalList}"
+                                       var="pe" itemLabel="#{pe.nome}" itemValue="#{pe}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="Aluno:" for="iptAluno" style="font-weight:bold"/>
+                    <p:selectOneMenu id="iptAluno" required="true"
+                                     requiredMessage="O aluno é obrigatório"
+                                     value="#{aulaController.aula.idAluno}"
+                                     style="width:300px">
+                        <f:selectItem itemLabel="Selecione um aluno..." itemValue=""/>
+                        <f:selectItems value="#{alunoController.alunoList}"
+                                       var="al" itemLabel="#{al.nome}" itemValue="#{al}"/>
+                    </p:selectOneMenu>
+
+                </h:panelGrid>
+                <p:commandButton actionListener="#{aulaController.adicionarAula()}"
+                                 icon="pi pi-save" value="Cadastrar"
+                                 update=":frmList :CreateForm"
+                                 oncomplete="PF('dlgCreate').hide()"/>
+            </h:form>
+        </p:dialog>
+
+        <!-- Diálogo de Edição -->
+        <p:dialog header="Editar Aula" widgetVar="dlgEdit" width="500" showEffect="fade" modal="true" resizable="false">
+            <h:form id="formEdit">
+                <p:growl id="growl" showDetail="true"/>
+                <h:panelGrid columns="2" style="width:100%; margin-bottom:10px"
+                             rendered="#{aulaController.selected != null}">
+
+                    <p:outputLabel value="ID:" for="iptId" style="font-weight:bold"/>
+                    <p:inputText id="iptId" disabled="true"
+                                 value="#{aulaController.selected.id}"
+                                 style="width:300px"/>
+
+                    <p:outputLabel value="Tipo:" for="iptTipo" style="font-weight:bold"/>
+                    <p:selectOneMenu id="iptTipo" required="true"
+                                     requiredMessage="O tipo é obrigatório"
+                                     value="#{aulaController.selected.tipo}"
+                                     style="width:300px">
+                        <f:selectItem itemLabel="Selecione..." itemValue=""/>
+                        <f:selectItems value="#{especialidadeController.especialidades}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="Data:" for="iptDataAula" style="font-weight:bold"/>
+                    <p:inputMask id="iptDataAula" mask="99/99/9999" required="true"
+                                 requiredMessage="A data é obrigatória"
+                                 value="#{aulaController.selected.dataAula}"
+                                 style="width:300px">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </p:inputMask>
+
+                    <p:outputLabel value="Horário:" for="iptHorario" style="font-weight:bold"/>
+                    <p:inputMask id="iptHorario" mask="99:99" required="true"
+                                 requiredMessage="O horário é obrigatório"
+                                 value="#{aulaController.selected.horario}"
+                                 style="width:300px"/>
+
+                    <p:outputLabel value="Personal:" for="iptPersonal" style="font-weight:bold"/>
+                    <p:selectOneMenu id="iptPersonal" required="true"
+                                     requiredMessage="O personal é obrigatório"
+                                     value="#{aulaController.selected.idPersonal}"
+                                     style="width:300px">
+                        <f:selectItem itemLabel="Selecione um personal..." itemValue=""/>
+                        <f:selectItems value="#{personalController.personalList}"
+                                       var="pe" itemLabel="#{pe.nome}" itemValue="#{pe}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="Aluno:" for="iptAluno" style="font-weight:bold"/>
+                    <p:selectOneMenu id="iptAluno" required="true"
+                                     requiredMessage="O aluno é obrigatório"
+                                     value="#{aulaController.selected.idAluno}"
+                                     style="width:300px">
+                        <f:selectItem itemLabel="Selecione um aluno..." itemValue=""/>
+                        <f:selectItems value="#{alunoController.alunoList}"
+                                       var="al" itemLabel="#{al.nome}" itemValue="#{al}"/>
+                    </p:selectOneMenu>
+
+                </h:panelGrid>
+                <p:commandButton value="Salvar" icon="pi pi-save"
+                                 actionListener="#{aulaController.editarAula()}"
+                                 update="@form :frmList"
+                                 oncomplete="PF('dlgEdit').hide()"/>
+            </h:form>
+        </p:dialog>
+
+        <!-- Diálogo de Visualização -->
+        <p:dialog header="Detalhes da Aula" widgetVar="dlgView"
+                  width="500" showEffect="fade" modal="true" resizable="false">
+            <h:form id="formView">
+                <h:panelGrid columns="2" style="width:100%"
+                             rendered="#{aulaController.selected != null}">
+
+                    <p:outputLabel value="ID:" style="font-weight:bold"/>
+                    <p:outputLabel value="#{aulaController.selected.id}"/>
+
+                    <p:outputLabel value="Tipo:" style="font-weight:bold"/>
+                    <p:outputLabel value="#{aulaController.selected.tipo}"/>
+
+                    <p:outputLabel value="Data:" style="font-weight:bold"/>
+                    <h:outputText value="#{aulaController.selected.dataAula}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+
+                    <p:outputLabel value="Horário:" style="font-weight:bold"/>
+                    <p:outputLabel value="#{aulaController.selected.horario}"/>
+
+                    <p:outputLabel value="Personal:" style="font-weight:bold"/>
+                    <p:outputLabel value="#{aulaController.selected.idPersonal.nome}"/>
+
+                    <p:outputLabel value="Aluno:" style="font-weight:bold"/>
+                    <p:outputLabel value="#{aulaController.selected.idAluno.nome}"/>
+
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+
+    </ui:define>
+</ui:composition>
