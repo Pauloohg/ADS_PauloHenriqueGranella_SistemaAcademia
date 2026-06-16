@@ -4,6 +4,18 @@
         <param-name>jakarta.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
     </context-param>
+    <context-param>
+        <param-name>jakarta.faces.STATE_SAVING_METHOD</param-name>
+        <param-value>client</param-value>
+    </context-param>
+    <filter>
+        <filter-name>FiltroAdministrativo</filter-name>
+        <filter-class>br.upf.trabalhofinalacademia.FiltroAdministrativo</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>FiltroAdministrativo</filter-name>
+        <url-pattern>/faces/admin/*</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>jakarta.faces.webapp.FacesServlet</servlet-class>
@@ -19,7 +31,7 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>faces/plano.xhtml</welcome-file>
+        <welcome-file>faces/login.xhtml</welcome-file>
     </welcome-file-list>
     <mime-mapping>
         <extension>woff2</extension>

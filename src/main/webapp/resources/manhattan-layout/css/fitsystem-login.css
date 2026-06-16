@@ -1,0 +1,269 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Nunito:wght@300;400;600;700&display=swap');
+
+/* ── Reset do body ── */
+.login-body {
+    background: #0a0f1e !important;
+    background-image:
+        radial-gradient(ellipse at 15% 50%, rgba(0, 200, 160, 0.13) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 20%, rgba(0, 120, 200, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 55% 85%, rgba(0, 180, 140, 0.09) 0%, transparent 50%) !important;
+    min-height: 100vh !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-family: 'Nunito', sans-serif !important;
+    overflow: hidden !important;
+    position: relative !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Grade de fundo */
+.login-body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(0, 200, 160, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 200, 160, 0.035) 1px, transparent 1px);
+    background-size: 55px 55px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Orbes decorativos */
+.login-body::after {
+    content: '';
+    position: fixed;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,200,160,0.07) 0%, transparent 70%);
+    top: -100px; left: -100px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ── Logo dentro do painel ── */
+.login-logo-wrapper {
+    text-align: center !important;
+    padding: 28px 0 4px !important;
+    margin: 0 !important;
+}
+
+.login-logo-wrapper img,
+.fit-logo {
+    width: 150px !important;
+    height: auto !important;
+    display: block !important;
+    margin: 0 auto !important;
+    filter: drop-shadow(0 0 18px rgba(0, 200, 160, 0.65)) !important;
+}
+
+/* ── Painel principal ── */
+.login-body .login-panel {
+    width: 420px !important;
+    background: rgba(10, 18, 35, 0.88) !important;
+    border: 1px solid rgba(0, 200, 160, 0.28) !important;
+    border-radius: 20px !important;
+    box-shadow:
+        0 0 0 1px rgba(0, 200, 160, 0.05),
+        0 0 50px rgba(0, 200, 160, 0.1),
+        0 30px 80px rgba(0, 0, 0, 0.7) !important;
+    position: relative !important;
+    left: unset !important;
+    top: unset !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    z-index: 1;
+    overflow: hidden;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+}
+
+/* Linha brilhante no topo do painel */
+.login-body .login-panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(0,200,160,0.8) 30%,
+        #00c8a0 50%,
+        rgba(0,200,160,0.8) 70%,
+        transparent 100%);
+    animation: topShimmer 3s ease-in-out infinite;
+    z-index: 3;
+}
+
+@keyframes topShimmer {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+/* ── Ocultar lado esquerdo (foto do prédio) ── */
+.login-body .login-panel .left-side {
+    display: none !important;
+}
+
+/* ── Lado direito ocupa 100% ── */
+.login-body .login-panel > .grid > .col-12,
+.login-body .login-panel > .grid > [class*="col-"] {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+.login-body .login-panel .right-side {
+    padding: 44px 40px 40px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: none !important;
+}
+
+/* ── Títulos ── */
+.login-body .login-panel .col-12.container {
+    margin-bottom: 28px !important;
+    text-align: center !important;
+    padding: 0 !important;
+}
+
+.login-body .login-panel .col-12.container h3 {
+    color: #00c8a0 !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    letter-spacing: 4px !important;
+    text-transform: uppercase !important;
+    margin: 0 0 8px !important;
+}
+
+.login-body .login-panel .col-12.container h2 {
+    color: #e2eaf6 !important;
+    font-family: 'Rajdhani', sans-serif !important;
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+    margin: 0 !important;
+    line-height: 1.35 !important;
+}
+
+/* ── Wrapper dos inputs ── */
+.login-body .login-panel .input-wrapper {
+    position: relative !important;
+    margin-bottom: 2px !important;
+}
+
+.login-body .login-panel .input-wrapper i.pi {
+    position: absolute !important;
+    left: 15px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    color: #00c8a0 !important;
+    font-size: 14px !important;
+    z-index: 3 !important;
+    pointer-events: none !important;
+}
+
+/* ── Inputs ── */
+.login-body .login-panel .ui-inputtext,
+.login-body .login-panel .ui-password input,
+.login-body .login-panel input[type="text"],
+.login-body .login-panel input[type="password"] {
+    width: 100% !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(0, 200, 160, 0.22) !important;
+    border-radius: 10px !important;
+    color: #d8e8f0 !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 14px !important;
+    padding: 13px 16px 13px 44px !important;
+    transition: all 0.25s ease !important;
+    box-sizing: border-box !important;
+    outline: none !important;
+}
+
+.login-body .login-panel .ui-inputtext:focus,
+.login-body .login-panel .ui-password input:focus,
+.login-body .login-panel input[type="text"]:focus,
+.login-body .login-panel input[type="password"]:focus {
+    background: rgba(0, 200, 160, 0.07) !important;
+    border-color: #00c8a0 !important;
+    box-shadow: 0 0 0 3px rgba(0, 200, 160, 0.15) !important;
+}
+
+.login-body .login-panel input::placeholder {
+    color: rgba(180, 200, 220, 0.35) !important;
+}
+
+/* Corrigir largura do p:password */
+.login-body .login-panel .ui-password {
+    width: 100% !important;
+    display: block !important;
+}
+
+/* ── Botão Acessar ── */
+.login-body .login-panel .button-container {
+    margin-top: 10px !important;
+    padding: 0 !important;
+}
+
+.login-body .login-panel .button-container .ui-button,
+.login-body .login-panel .button-container button {
+    width: 100% !important;
+    background: linear-gradient(135deg, #00c8a0 0%, #00a0d0 100%) !important;
+    border: none !important;
+    border-radius: 10px !important;
+    color: #ffffff !important;
+    font-family: 'Rajdhani', sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    letter-spacing: 2.5px !important;
+    text-transform: uppercase !important;
+    padding: 14px 24px !important;
+    cursor: pointer !important;
+    transition: all 0.28s ease !important;
+    box-shadow: 0 4px 22px rgba(0, 200, 160, 0.32) !important;
+    display: block !important;
+    margin: 0 !important;
+}
+
+.login-body .login-panel .button-container .ui-button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 32px rgba(0, 200, 160, 0.48) !important;
+    filter: brightness(1.08) !important;
+}
+
+.login-body .login-panel .button-container .ui-button:active {
+    transform: translateY(0) !important;
+}
+
+/* ── Padding dos cols dentro do painel ── */
+.login-body .login-panel .right-side > .col-12 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-bottom: 12px !important;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+    .login-body .login-panel {
+        width: calc(100% - 32px) !important;
+        margin: 0 16px !important;
+    }
+    .login-body .login-panel .right-side {
+        padding: 36px 24px !important;
+    }
+}
+
+/* ── FitSystem brand text ── */
+.login-body .login-panel .col-12.container .fit-brand {
+    font-family: 'Rajdhani', sans-serif !important;
+    font-size: 28px !important;
+    font-weight: 700 !important;
+    color: #00c8a0 !important;
+    letter-spacing: 4px !important;
+    text-transform: uppercase !important;
+    margin: 10px 0 0 0 !important;
+    text-shadow: 0 0 20px rgba(0, 200, 160, 0.5) !important;
+}
